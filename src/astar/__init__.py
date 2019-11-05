@@ -49,7 +49,7 @@ class AStar:
         raise NotImplementedError
 
     @abstractmethod
-    def distance_between(self, n1, n2):
+    def distance_between(self, n0, n1, n2):
         """Gives the real distance between two adjacent nodes n1 and n2 (i.e n2 belongs to the list of n1's neighbors).
            n2 is guaranteed to belong to the list returned by the call to neighbors(n1).
            This method must be implemented in a subclass."""
@@ -93,7 +93,7 @@ class AStar:
                 if neighbor.closed:
                     continue
                 tentative_gscore = current.gscore + \
-                    self.distance_between(current.data, neighbor.data)
+                    self.distance_between(current.came_from.data, current.data, neighbor.data)
                 if tentative_gscore >= neighbor.gscore:
                     continue
                 neighbor.came_from = current
