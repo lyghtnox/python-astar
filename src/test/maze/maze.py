@@ -1,8 +1,18 @@
-
 from astar import AStar
 import sys
 import math
 
+def reduce_path(path):
+    simplePath = []
+    (xp, yp) = path[1]
+    diff = (0, 0)
+    for (x, y) in path:
+        if diff != (x - xp, y - yp):
+            diff = (x - xp, y - yp)
+            simplePath.append((xp, yp))
+        (xp, yp) = (x, y)
+    simplePath.append(path[-1])
+    return simplePath
 
 def make_maze(w=30, h=30):
     """returns an ascii maze as a string"""
@@ -92,8 +102,10 @@ h = len(m.split('\n'))
 start = (1, 1)  # we choose to start at the upper left corner
 goal = (w - 2, h - 2)  # we want to reach the lower right corner
 
+print(list(MazeSolver(m).astar(start, goal)))
 # let's solve it
 foundPath = list(MazeSolver(m).astar(start, goal))
 
 # print the solution
 print(drawmaze(m, list(foundPath)))
+print(drawmaze(m, list(reduce_path(foundPath))))
