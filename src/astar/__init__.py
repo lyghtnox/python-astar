@@ -92,8 +92,11 @@ class AStar:
             for neighbor in [searchNodes[n] for n in self.neighbors(current.data)]:
                 if neighbor.closed:
                     continue
-                tentative_gscore = current.gscore + \
-                    self.distance_between(current.came_from.data, current.data, neighbor.data)
+                if current.came_from == None:
+                    dist_btwn = self.distance_between(None, current.data, neighbor.data)
+                else:
+                    dist_btwn = self.distance_between(current.came_from.data, current.data, neighbor.data)
+                tentative_gscore = current.gscore + dist_btwn
                 if tentative_gscore >= neighbor.gscore:
                     continue
                 neighbor.came_from = current
